@@ -1,0 +1,432 @@
+/* ============================================================
+   Coro — estilos
+   Todos los colores viven aquí arriba como "variables".
+   Si quieres cambiar un color, se cambia en un solo lugar.
+   ============================================================ */
+:root {
+  --bg: #111417;          /* fondo */
+  --card: #1c2126;        /* tarjetas */
+  --border: #2c333a;      /* bordes */
+  --text: #eef1f3;        /* texto principal */
+  --text-2: #a3adb6;      /* texto secundario */
+  --text-dim: #737e88;    /* líneas tenues de la letra */
+  --lilac: #d7c4f2;       /* color principal */
+  --mint: #9de3db;        /* color secundario */
+  --sky: #a9c7ff;         /* acento extra */
+  --peach: #ffd6a5;       /* acento extra */
+
+  --font-title: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  /* Tamaño de la letra (los botones A / A cambian --lyric-scale) */
+  --lyric-scale: 1;
+  --lyric-current: calc(40px * var(--lyric-scale));
+  --lyric-near: calc(25px * var(--lyric-scale));
+
+  --radius-lg: 24px;
+  --radius-md: 18px;
+  --radius-sm: 14px;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+body {
+  overflow: hidden;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+svg {
+  display: block;
+}
+
+/* ---------- Estructura general ---------- */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-width: 720px;
+  margin: 0 auto;
+  /* Respeta la "isla" y la barra inferior del iPhone */
+  padding: calc(env(safe-area-inset-top) + 12px) 16px
+    calc(env(safe-area-inset-bottom) + 16px);
+  gap: 16px;
+}
+
+/* ---------- Barra superior ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-mark {
+  width: 26px;
+  height: 26px;
+  fill: var(--lilac);
+}
+
+.logo-text {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  color: var(--lilac);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-2);
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 0 4px rgb(157 227 219 / 0.15);
+}
+
+/* ---------- Tarjeta de la canción ---------- */
+.now-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px 14px;
+}
+
+.now-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cover {
+  flex: none;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, rgb(215 196 242 / 0.25), rgb(157 227 219 / 0.18));
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cover svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: var(--mint);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.now-text {
+  min-width: 0;
+}
+
+.song-title {
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.song-artist {
+  margin-top: 2px;
+  font-size: 16px;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.progress {
+  position: relative;
+  margin-top: 16px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+  cursor: pointer;
+  /* Zona táctil más grande que la barra visible */
+  outline: none;
+}
+
+.progress::before {
+  content: "";
+  position: absolute;
+  inset: -12px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: var(--lilac);
+}
+
+.times {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-2);
+}
+
+/* ---------- Letra ---------- */
+.lyrics {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  /* Difumina arriba y abajo para que las líneas aparezcan y se vayan suave */
+  -webkit-mask-image: linear-gradient(transparent 0, #000 14%, #000 84%, transparent 100%);
+  mask-image: linear-gradient(transparent 0, #000 14%, #000 84%, transparent 100%);
+}
+
+.lyrics-track {
+  position: absolute;
+  inset: 0 0 auto 0;
+  padding: 0 6px;
+  will-change: transform;
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.line {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--lyric-near);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--text-dim);
+  padding: 10px 0;
+  transition: color 400ms ease, opacity 400ms ease;
+  cursor: pointer;
+  text-wrap: balance;
+}
+
+.line.far {
+  opacity: 0.45;
+}
+
+.line.past {
+  opacity: 0.6;
+}
+
+.line.current {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--lyric-current);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--lilac);
+  opacity: 1;
+  padding: 14px 0;
+  transform-origin: left center;
+  animation: line-in 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes line-in {
+  from {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Pausa instrumental: tres puntos que "respiran" */
+.line.gap {
+  display: flex;
+  gap: 10px;
+  padding: 18px 0;
+}
+
+.line.gap span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--text-dim);
+}
+
+.line.gap.current span {
+  background: var(--mint);
+  animation: breathe 1.4s ease-in-out infinite;
+}
+
+.line.gap.current span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.line.gap.current span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+/* ---------- Controles inferiores ---------- */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.size-group,
+.play-group {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  display: grid;
+  place-items: center;
+  height: 56px;
+  min-width: 56px;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
+  transition: transform 120ms ease, background 200ms ease, opacity 200ms ease;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.btn-ghost {
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost svg {
+  fill: none;
+  stroke: var(--mint);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.btn-primary {
+  min-width: 72px;
+  background: var(--lilac);
+  color: var(--bg);
+}
+
+.btn-primary svg {
+  fill: var(--bg);
+}
+
+.btn-primary .icon-pause {
+  display: none;
+}
+
+.btn-primary.playing .icon-play {
+  display: none;
+}
+
+.btn-primary.playing .icon-pause {
+  display: block;
+}
+
+.size-a {
+  font-family: var(--font-title);
+  font-weight: 700;
+  color: var(--mint);
+  line-height: 1;
+}
+
+.size-a-small {
+  font-size: 16px;
+}
+
+.size-a-big {
+  font-size: 24px;
+}
+
+/* Pantallas más grandes (tablet o computador) */
+@media (min-width: 600px) {
+  :root {
+    --lyric-current: calc(52px * var(--lyric-scale));
+    --lyric-near: calc(30px * var(--lyric-scale));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lyrics-track,
+  .line {
+    transition: none;
+  }
+  .line.current {
+    animation: none;
+  }
+}

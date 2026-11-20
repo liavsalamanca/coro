@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Coro</title>
+    <meta name="description" content="Letras sincronizadas para el carro" />
+    <meta name="theme-color" content="#111417" />
+
+    <!-- Para que el iPhone la trate como app al guardarla en la pantalla de inicio -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Coro" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Tipografías -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="logo">
+          <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <rect x="4" y="12" width="4" height="8" rx="2" />
+            <rect x="11" y="7" width="4" height="18" rx="2" />
+            <rect x="18" y="4" width="4" height="24" rx="2" />
+            <rect x="25" y="10" width="4" height="12" rx="2" />
+          </svg>
+          <span class="logo-text">Coro</span>
+        </div>
+        <span class="badge" id="mode-badge">
+          <span class="badge-dot"></span>
+          Modo demo
+        </span>
+      </header>
+
+      <section class="now-card" aria-label="Canción actual">
+        <div class="now-info">
+          <div class="cover" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M9 18V6l11-2v12" /><circle cx="6" cy="18" r="3" /><circle cx="17" cy="16" r="3" /></svg>
+          </div>
+          <div class="now-text">
+            <h1 class="song-title" id="song-title">—</h1>
+            <p class="song-artist" id="song-artist">—</p>
+          </div>
+        </div>
+
+        <div class="progress" id="progress" role="slider" aria-label="Progreso de la canción" tabindex="0">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="times">
+          <span id="time-current">0:00</span>
+          <span id="time-total">0:00</span>
+        </div>
+      </section>
+
+      <main class="lyrics" id="lyrics" aria-live="off">
+        <div class="lyrics-track" id="lyrics-track"></div>
+      </main>
+
+      <footer class="controls">
+        <div class="size-group" role="group" aria-label="Tamaño de la letra">
+          <button class="btn btn-ghost" id="size-down" aria-label="Achicar letra">
+            <span class="size-a size-a-small">A</span>
+          </button>
+          <button class="btn btn-ghost" id="size-up" aria-label="Agrandar letra">
+            <span class="size-a size-a-big">A</span>
+          </button>
+        </div>
+
+        <div class="play-group">
+          <button class="btn btn-ghost" id="restart" aria-label="Volver al inicio">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7" /><path d="M3 4v5h5" /></svg>
+          </button>
+          <button class="btn btn-primary" id="play" aria-label="Reproducir">
+            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" /></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="1.2" /><rect x="14" y="4.5" width="4" height="15" rx="1.2" /></svg>
+          </button>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
